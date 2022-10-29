@@ -8,7 +8,7 @@ st.set_page_config(
     layout = "wide",
     menu_items={
         'Get Help': 'https://docs.streamlit.io/',
-        'About': '#Welcome to to our project #2 Page. Developed by Adriel Molerio & Ashley Royce'
+        'About': '#Welcome to to our CAP4104 Project #2 Page. Developed by Adriel Molerio & Ashley Royce'
     }
 )
 
