@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import requests
 import json
+import pydeck as pdk
 
 def get_crypto_prices(symbol, start, end):
     api_key = '7d9fd462584daa7dbbf18aa0b756aea7'
@@ -48,7 +49,7 @@ add_selectbox = st.sidebar.selectbox(
 if add_selectbox == "Current Cryptocurrency Data":
     st.header("Current Cryptocurrency Data")
     desired_coin = st.text_input("Input the Coin you want to examine here (Example: BTC):")
-    todays_date = st.text_input("Enter today's date here in the format 'YYYY-MM-DD':")
+    todays_date = st.date_input("Please select today's date:")
     end_date = todays_date
     if desired_coin:
         st.table(get_crypto_prices(desired_coin, todays_date, end_date))
@@ -63,6 +64,44 @@ elif add_selectbox == "Historical Data":
 
 elif add_selectbox == "Cryptocurrency Conversions":
     st.header("Cryptocurrency Conversions")
+    st.subheader("Map- Crypto Capitals")
+    df = pd.read_csv("csv/Crypto_Capitals_2022.csv")
+
+    zoom_lat = df["latitude"].mean()
+    zoom_long = df["longitude"].mean()
+
+    st.pydeck_chart(pdk.Deck(
+        # map_style https://docs.mapbox.com/api/maps/styles/
+        map_style='mapbox://styles/mapbox/light-v10',
+        initial_view_state=pdk.ViewState(
+            latitude=zoom_lat,
+            longitude=zoom_long,
+            zoom=0.5,
+            pitch=50,
+        ),
+        layers=[
+            pdk.Layer(
+                'ScatterplotLayer',
+                data=df,
+                get_position='[longitude, latitude]',
+                get_color='[26, 255, 0, 160]',
+                get_radius=150000,
+                pickable=True,
+            ),
+        ],
+        tooltip={
+            "html": "{name} <br/> % of population owning crypto: {percent}% <br/>",
+            "style": {
+                "backgroundColor": "steelblue",
+                "color": "white"
+            }
+        }
+    ))
+
+    capitals = st.selectbox('Select a country to view cryptocurrency prices',
+                            ["Brazil", "Colombia", "India", "Indonesia", "Kenya", "Nigeria",
+                             "Pakistan", "Phillipines", "Russia", "South Africa", "Thailand",
+                            "Ukraine", "United Kingdom", "United States", "Venezuela", "Vietnam"])
 
 else:
     st.header("CAP 4104 - Developed by Adriel Molerio & Ashley Royce")
