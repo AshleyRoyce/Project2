@@ -64,7 +64,7 @@ elif add_selectbox == "Historical Data":
 
 elif add_selectbox == "Cryptocurrency Conversions":
     st.header("Cryptocurrency Conversions")
-    st.subheader("Map- Crypto Capitals")
+    st.subheader("Map- Top Countries by Cryptocurrency Ownership")
     df = pd.read_csv("csv/Crypto_Capitals_2022.csv")
 
     zoom_lat = df["latitude"].mean()
