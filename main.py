@@ -31,18 +31,6 @@ def get_crypto_prices(symbol, start, end):
     df['price'] = prices
     return df
 
-def currency_converter(cost, currency):
-    file = open("api_keys.json")
-    json_file = json.load(file)
-    api_key = json_file["currency_api"]
-    url = "https://api.currencylayer.com/live?access_key"+api_key
-    response = requests.get(url).json()
-    desireCurrency = "USD"+currency
-    value = response["quotes"][desireCurrency]
-    converted_cost = cost/value
-    return converted_cost
-
-
 st.set_page_config(
     page_title="Project 2- Adriel Molerio & Ashley Royce",
     layout = "wide",
@@ -136,11 +124,6 @@ elif add_selectbox == "Global Cryptocurrency Conversions":
                             ["Brazil", "Colombia", "India", "Indonesia", "Kenya", "Nigeria",
                              "Pakistan", "Phillipines", "Russia", "South Africa", "Thailand",
                             "Ukraine", "United Kingdom", "United States", "Venezuela", "Vietnam"])
-
-   # if coin and capital == "Brazil":
-    #    st.subheader("Brazilian Real")
-     #   converted_cost = currency_converter(5000, 'BRL')
-      #  st.write("One {} is equivalent to R${:.2f}".format(coin, converted_cost))
 
 
 
