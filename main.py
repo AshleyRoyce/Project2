@@ -24,11 +24,24 @@ def get_crypto_prices(symbol, start, end):
             price = val[0][f'{symbol}']
             prices.append(price)
         except:
-            prices.append('NaN')
+            st.error('Invalid coin symbol entered', icon="🚨")
+            prices.append('')
     df = pd.DataFrame(columns=['date', 'price'])
     df['date'] = series
     df['price'] = prices
     return df
+
+def currency_converter(cost, currency):
+    file = open("api_keys.json")
+    json_file = json.load(file)
+    api_key = json_file["currency_api"]
+    url = "https://api.currencylayer.com/live?access_key"+api_key
+    response = requests.get(url).json()
+    desireCurrency = "USD"+currency
+    value = response["quotes"][desireCurrency]
+    converted_cost = cost/value
+    return converted_cost
+
 
 st.set_page_config(
     page_title="Project 2- Adriel Molerio & Ashley Royce",
@@ -43,7 +56,7 @@ st.title("CryptoCurrency Information")
 
 add_selectbox = st.sidebar.selectbox(
     "Select a Page",
-    ["Homepage", "Current Cryptocurrency Data", "Historical Data", "Cryptocurrency Conversions"]
+    ["Homepage", "Current Cryptocurrency Data", "Historical Data", "Global Cryptocurrency Conversions"]
 )
 
 if add_selectbox == "Current Cryptocurrency Data":
@@ -62,8 +75,8 @@ elif add_selectbox == "Historical Data":
     if desired_coin and start_date and end_date:
         st.table(get_crypto_prices(desired_coin, start_date, end_date))
 
-elif add_selectbox == "Cryptocurrency Conversions":
-    st.header("Cryptocurrency Conversions")
+elif add_selectbox == "Global Cryptocurrency Conversions":
+    st.header("Global Cryptocurrency Conversions")
     st.subheader("Map- Top Countries by Cryptocurrency Ownership")
     df = pd.read_csv("csv/Crypto_Capitals_2022.csv")
 
@@ -97,11 +110,39 @@ elif add_selectbox == "Cryptocurrency Conversions":
             }
         }
     ))
+    st.subheader("Cryptocurrency Converter by Country")
+    coin = st.radio("Choose a Cryptopcurrency",
+                    options=["Bitcoin", "Ethereum", "Litecoin"])
 
-    capitals = st.selectbox('Select a country to view cryptocurrency prices',
+    if coin =="Bitcoin":
+        url = "https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD,JPY,EUR"
+        response = requests.get(url).json()
+        btc_price = response["USD"]
+        st.write("Current price of Bitcoin in US$ {}".format(btc_price))
+
+    elif coin =="Ethereum":
+        url = "https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD,JPY,EUR"
+        response = requests.get(url).json()
+        btc_price = response["USD"]
+        st.write("Current price of Ethereum in US$ {}".format(btc_price))
+
+    elif coin =="Litecoin":
+        url = "https://min-api.cryptocompare.com/data/price?fsym=LTC&tsyms=USD,JPY,EUR"
+        response = requests.get(url).json()
+        btc_price = response["USD"]
+        st.write("Current price of Litecoin in US$ {}".format(btc_price))
+
+    capital = st.selectbox('Select a country to convert cryptocurrency prices',
                             ["Brazil", "Colombia", "India", "Indonesia", "Kenya", "Nigeria",
                              "Pakistan", "Phillipines", "Russia", "South Africa", "Thailand",
                             "Ukraine", "United Kingdom", "United States", "Venezuela", "Vietnam"])
+
+   # if coin and capital == "Brazil":
+    #    st.subheader("Brazilian Real")
+     #   converted_cost = currency_converter(5000, 'BRL')
+      #  st.write("One {} is equivalent to R${:.2f}".format(coin, converted_cost))
+
+
 
 else:
     st.header("CAP 4104 - Developed by Adriel Molerio & Ashley Royce")
