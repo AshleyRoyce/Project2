@@ -44,7 +44,7 @@ st.title("CryptoCurrency Information")
 
 add_selectbox = st.sidebar.selectbox(
     "Select a Page",
-    ["Homepage", "Current Cryptocurrency Data", "Historical Data", "Global Cryptocurrency Conversions"]
+    ["Homepage", "Current Cryptocurrency Data", "Historical Data", "Historical Data Graph", "Global Cryptocurrency Conversions"]
 )
 
 if add_selectbox == "Current Cryptocurrency Data":
@@ -62,6 +62,14 @@ elif add_selectbox == "Historical Data":
     end_date = st.text_input("Enter the end date you want to analyze the currency in the format 'YYYY-MM-DD':")
     if desired_coin and start_date and end_date:
         st.table(get_crypto_prices(desired_coin, start_date, end_date))
+        desired_coin = st.text_input("Input the Coin you want to examine here (Example: BTC):")
+        start_date = st.text_input("Enter the date you want to start to analyze the currency at in the format 'YYYY-MM-DD':")
+        end_date = st.text_input("Enter the end date you want to analyze the currency in the format 'YYYY-MM-DD':")
+        if desired_coin and start_date and end_date:
+            st.line_chart(get_crypto_prices(desired_coin, start_date, end_date))
+
+elif add_selectbox == "Historical Data Graph":
+    st.header("Historical Cryptocurrency Data Graph")
 
 elif add_selectbox == "Global Cryptocurrency Conversions":
     st.header("Global Cryptocurrency Conversions")
