@@ -31,6 +31,33 @@ def get_crypto_prices(symbol, start, end):
     df['price'] = prices
     return df
 
+def get_all_prices(start, end):
+    api_key = '7d9fd462584daa7dbbf18aa0b756aea7'
+    series = pd.date_range(start, end)
+    dates = []
+    for i in range(len(series)):
+        dates.append(str(series[i]))
+    date_series = []
+    for i in dates:
+        date_series.append(i[:10])
+    prices = []
+    for date in date_series:
+        try:
+            api_url = f'http://api.coinlayer.com/{date}?access_key={api_key}'
+            raw = requests.get(api_url).json()
+            val = []
+            val.append(raw['rates'])
+            price = val[0][f'{symbol}']
+            prices.append(price)
+        except:
+            st.error('Invalid coin symbol entered', icon="🚨")
+            prices.append('')
+    df = pd.DataFrame(columns=['date', 'price'])
+    df['date'] = series
+    df['price'] = prices
+    return df
+
+
 st.set_page_config(
     page_title="Project 2- Adriel Molerio & Ashley Royce",
     layout = "wide",
@@ -50,16 +77,20 @@ add_selectbox = st.sidebar.selectbox(
 if add_selectbox == "Current Cryptocurrency Data":
     st.header("Current Cryptocurrency Data")
     desired_coin = st.text_input("Input the Coin you want to examine here (Example: BTC):")
+    all_coins = st.checkbox("Do you want to look at all coins?")
     todays_date = st.date_input("Please select today's date:")
     end_date = todays_date
     if desired_coin:
         st.table(get_crypto_prices(desired_coin, todays_date, end_date))
+    elif all_coins:
+        st.table(get_all_prices(todays_date, end_date))
 
 elif add_selectbox == "Historical Data":
     st.header("Historical Cryptocurrency Data")
     desired_coin = st.text_input("Input the Coin you want to examine here (Example: BTC):")
-    start_date = st.text_input("Enter the date you want to start to analyze the currency at in the format 'YYYY-MM-DD':")
-    end_date = st.text_input("Enter the end date you want to analyze the currency in the format 'YYYY-MM-DD':")
+    another_coin = st.checkbox("Do you want to look at another coin?")
+    start_date = st.date_input("Enter the date you want to start to analyze the currency.")
+    end_date = st.date_input("Enter the date you want to stop analyzing the currency.")
     if desired_coin and start_date and end_date:
         st.table(get_crypto_prices(desired_coin, start_date, end_date))
 
@@ -98,8 +129,6 @@ elif add_selectbox == "Global Cryptocurrency Conversions":
             }
         }
     ))
-    st.info('Statistical information displayed in map collected in 2021 by TripleA', icon="ℹ️")
-
     st.subheader("Cryptocurrency Converter by Country")
     coin = st.radio("Choose a Cryptopcurrency",
                     options=["Bitcoin", "Ethereum", "Litecoin"])
@@ -122,8 +151,7 @@ elif add_selectbox == "Global Cryptocurrency Conversions":
         btc_price = response["USD"]
         st.write("Current price of Litecoin in US$ {}".format(btc_price))
 
-    if st.button('Click here to convert currencies'):
-        capital = st.selectbox('Select a country to convert cryptocurrency prices',
+    capital = st.selectbox('Select a country to convert cryptocurrency prices',
                             ["Brazil", "Colombia", "India", "Indonesia", "Kenya", "Nigeria",
                              "Pakistan", "Phillipines", "Russia", "South Africa", "Thailand",
                             "Ukraine", "United Kingdom", "United States", "Venezuela", "Vietnam"])
