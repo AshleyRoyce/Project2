@@ -88,7 +88,6 @@ if add_selectbox == "Current Cryptocurrency Data":
 elif add_selectbox == "Historical Data":
     st.header("Historical Cryptocurrency Data")
     desired_coin = st.text_input("Input the Coin you want to examine here (Example: BTC):")
-    another_coin = st.checkbox("Do you want to look at another coin?")
     start_date = st.date_input("Enter the date you want to start to analyze the currency.")
     end_date = st.date_input("Enter the date you want to stop analyzing the currency.")
     if desired_coin and start_date and end_date:
