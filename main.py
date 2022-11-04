@@ -44,7 +44,7 @@ st.title("CryptoCurrency Information")
 
 add_selectbox = st.sidebar.selectbox(
     "Select a Page",
-    ["Homepage", "Current Cryptocurrency Data", "Historical Data", "Historical Data Graph", "Global Cryptocurrency Conversions"]
+    ["Homepage", "Current Cryptocurrency Data", "Historical Data", "Global Cryptocurrency Conversions"]
 )
 
 if add_selectbox == "Current Cryptocurrency Data":
