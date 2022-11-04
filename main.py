@@ -58,8 +58,8 @@ if add_selectbox == "Current Cryptocurrency Data":
 elif add_selectbox == "Historical Data":
     st.header("Historical Cryptocurrency Data")
     desired_coin = st.text_input("Input the Coin you want to examine here (Example: BTC):")
-    start_date = st.date_input("Enter the date you want to start to analyze the currency.")
-    end_date = st.date_input("Enter the date you want to stop analyzing the currency.")
+    start_date = st.text_input("Enter the date you want to start to analyze the currency at in the format 'YYYY-MM-DD':")
+    end_date = st.text_input("Enter the end date you want to analyze the currency in the format 'YYYY-MM-DD':")
     if desired_coin and start_date and end_date:
         st.table(get_crypto_prices(desired_coin, start_date, end_date))
 
@@ -98,6 +98,8 @@ elif add_selectbox == "Global Cryptocurrency Conversions":
             }
         }
     ))
+    st.info('Statistical information displayed in map collected in 2021 by TripleA', icon="ℹ️")
+
     st.subheader("Cryptocurrency Converter by Country")
     coin = st.radio("Choose a Cryptopcurrency",
                     options=["Bitcoin", "Ethereum", "Litecoin"])
@@ -120,7 +122,8 @@ elif add_selectbox == "Global Cryptocurrency Conversions":
         btc_price = response["USD"]
         st.write("Current price of Litecoin in US$ {}".format(btc_price))
 
-    capital = st.selectbox('Select a country to convert cryptocurrency prices',
+    if st.button('Click here to convert currencies'):
+        capital = st.selectbox('Select a country to convert cryptocurrency prices',
                             ["Brazil", "Colombia", "India", "Indonesia", "Kenya", "Nigeria",
                              "Pakistan", "Phillipines", "Russia", "South Africa", "Thailand",
                             "Ukraine", "United Kingdom", "United States", "Venezuela", "Vietnam"])
