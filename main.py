@@ -5,7 +5,7 @@ import requests
 import json
 import pydeck as pdk
 def get_crypto_prices(symbol, start, end):
-    api_key = '7d9fd462584daa7dbbf18aa0b756aea7'
+    api_key = '076c246c09cc513816e38f7cadc0e490'
     series = pd.date_range(start, end)
     dates = []
     for i in range(len(series)):
@@ -83,6 +83,22 @@ if add_selectbox == "Current Cryptocurrency Data":
         st.table(get_crypto_prices(desired_coin, todays_date, end_date))
     elif all_coins:
         st.table(get_all_prices(todays_date, end_date))
+    st.subheader("Current Cryptocurrency Comparisons")
+    options = st.multiselect(
+        'Choose the coins you would like to compare',
+        ['BTC', 'ETH', 'LTC', 'USDT', 'BNB', 'XRP'],
+        ['BTC', 'ETH', 'LTC'])
+    st.write('You selected:', options)
+    priceValue = []
+    for i in range(len(options)):
+        priceValue.append(get_crypto_prices(options[i], todays_date, todays_date))
+
+    chart_data = pd.util.hash_pandas_object(pd.DataFrame({
+        'Coin': [options],
+        'Price': [priceValue]
+    }))
+    st.bar_chart(chart_data)
+
 
 elif add_selectbox == "Historical Data":
     st.header("Historical Cryptocurrency Data")
@@ -127,32 +143,35 @@ elif add_selectbox == "Global Cryptocurrency Conversions":
             }
         }
     ))
+    st.info('Statistical information displayed in map collected in 2021 by TripleA', icon="ℹ️")
+
     st.subheader("Cryptocurrency Converter by Country")
     coin = st.radio("Choose a Cryptopcurrency",
                     options=["Bitcoin", "Ethereum", "Litecoin"])
 
-    if coin =="Bitcoin":
+    if coin == "Bitcoin":
         url = "https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD,JPY,EUR"
         response = requests.get(url).json()
         btc_price = response["USD"]
         st.write("Current price of Bitcoin in US$ {}".format(btc_price))
 
-    elif coin =="Ethereum":
+    elif coin == "Ethereum":
         url = "https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD,JPY,EUR"
         response = requests.get(url).json()
         btc_price = response["USD"]
         st.write("Current price of Ethereum in US$ {}".format(btc_price))
 
-    elif coin =="Litecoin":
+    elif coin == "Litecoin":
         url = "https://min-api.cryptocompare.com/data/price?fsym=LTC&tsyms=USD,JPY,EUR"
         response = requests.get(url).json()
         btc_price = response["USD"]
         st.write("Current price of Litecoin in US$ {}".format(btc_price))
 
-    capital = st.selectbox('Select a country to convert cryptocurrency prices',
-                            ["Brazil", "Colombia", "India", "Indonesia", "Kenya", "Nigeria",
-                             "Pakistan", "Phillipines", "Russia", "South Africa", "Thailand",
-                            "Ukraine", "United Kingdom", "United States", "Venezuela", "Vietnam"])
+    if st.button('Click here to perform currency conversions'):
+        capital = st.selectbox('Select a country to convert cryptocurrency prices',
+                               ["Brazil", "Colombia", "India", "Indonesia", "Kenya", "Nigeria",
+                                "Pakistan", "Phillipines", "Russia", "South Africa", "Thailand",
+                                "Ukraine", "United Kingdom", "United States", "Venezuela", "Vietnam"])
 
 
 
