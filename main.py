@@ -69,7 +69,7 @@ if add_selectbox == "Current Cryptocurrency Data":
       #  'Price(USD)': [69.75, 353.28, 160.07, 163.18, 95.52, 49.06, 54.17]
     #}
     bar_chart_df = pd.merge(coin1_df, coin2_df, how="outer", on=['price'])
-    st.bar_chart(bar_chart_df)
+    st.bar_chart(bar_chart_df['price'])
     st.text("Prices as of today")
 
 
