@@ -29,7 +29,6 @@ def get_crypto_prices(symbol, start, end):
     df = pd.DataFrame(columns=['date', 'price'])
     df['date'] = series
     df['price'] = prices
-    st.line_chart(data=df, x=df['date'], y=df['price'], use_container_width=True)
     return df
 
 def get_all_prices(start, end):
@@ -101,7 +100,10 @@ elif add_selectbox == "Historical Data":
     start_date = st.date_input("Enter the date you want to start to analyze the currency.")
     end_date = st.date_input("Enter the date you want to stop analyzing the currency.")
     if desired_coin and start_date and end_date:
-        st.table(get_crypto_prices(desired_coin, start_date, end_date))
+        coin_df = get_crypto_prices(desired_coin, start_date, end_date)
+        st.table(coin_df)
+        st.line_chart(data=coin_df, x=coin_df['date'], y=coin_df['price'], use_container_width=True)
+
 
 elif add_selectbox == "Global Cryptocurrency Conversions":
     st.header("Global Cryptocurrency Conversions")
