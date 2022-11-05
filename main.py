@@ -128,6 +128,8 @@ elif add_selectbox == "Global Cryptocurrency Conversions":
             }
         }
     ))
+    st.info('Statistical information displayed in map collected in 2021 by TripleA', icon="ℹ️")
+
     st.subheader("Cryptocurrency Converter by Country")
     coin = st.radio("Choose a Cryptopcurrency",
                     options=["Bitcoin", "Ethereum", "Litecoin"])
@@ -150,7 +152,8 @@ elif add_selectbox == "Global Cryptocurrency Conversions":
         btc_price = response["USD"]
         st.write("Current price of Litecoin in US$ {}".format(btc_price))
 
-    capital = st.selectbox('Select a country to convert cryptocurrency prices',
+    if st.button('Click here to perform currency conversions'):
+         capital = st.selectbox('Select a country to convert cryptocurrency prices',
                             ["Brazil", "Colombia", "India", "Indonesia", "Kenya", "Nigeria",
                              "Pakistan", "Phillipines", "Russia", "South Africa", "Thailand",
                             "Ukraine", "United Kingdom", "United States", "Venezuela", "Vietnam"])
