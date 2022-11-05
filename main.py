@@ -31,32 +31,6 @@ def get_crypto_prices(symbol, start, end):
     df['price'] = prices
     return df
 
-def get_all_prices(start, end):
-    api_key = '00f2a8f69b8c4ad6cf314cee14da7beb'
-    series = pd.date_range(start, end)
-    dates = []
-    for i in range(len(series)):
-        dates.append(str(series[i]))
-    date_series = []
-    for i in dates:
-        date_series.append(i[:10])
-    prices = []
-    for date in date_series:
-        try:
-            api_url = f'http://api.coinlayer.com/{date}?access_key={api_key}'
-            raw = requests.get(api_url).json()
-            val = []
-            val.append(raw['rates'])
-            price = val[0][f'{symbol}']
-            prices.append(price)
-        except:
-            st.error('Invalid coin symbol entered', icon="🚨")
-            prices.append('')
-    df = pd.DataFrame(columns=['date', 'price'])
-    df['date'] = series
-    df['price'] = prices
-    return df
-
 st.set_page_config(
     page_title="Project 2- Adriel Molerio & Ashley Royce",
     layout = "wide",
@@ -76,13 +50,15 @@ add_selectbox = st.sidebar.selectbox(
 if add_selectbox == "Current Cryptocurrency Data":
     st.header("Current Cryptocurrency Data")
     desired_coin = st.text_input("Input the Coin you want to examine here (Example: BTC):")
-    all_coins = st.checkbox("Do you want to look at all coins?")
+    other_coin = st.checkbox("Do you want to look at another coin?")
     todays_date = st.date_input("Please select today's date:")
     end_date = todays_date
     if desired_coin:
         st.table(get_crypto_prices(desired_coin, todays_date, end_date))
-    elif all_coins:
-        st.table(get_all_prices(todays_date, end_date))
+    if other_coin:
+        desired_coin2 = st.text_input("Input your second desired coin here:")
+        st.table(get_crypto_prices(desired_coin2, todays_date, end_date))
+
     st.subheader("Cryptocurrency Comparisons")
     chart_data = {
         'Coin': ['LTC', 'BNB', 'XMR', 'XRP', 'AAVE', 'BSV', 'ZEC'],
