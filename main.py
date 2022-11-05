@@ -102,7 +102,7 @@ elif add_selectbox == "Historical Data":
     if desired_coin and start_date and end_date:
         coin_df = get_crypto_prices(desired_coin, start_date, end_date)
         st.table(coin_df)
-        st.line_chart(coin_df)
+        st.line_chart(coin_df['price'])
 
 
 elif add_selectbox == "Global Cryptocurrency Conversions":
