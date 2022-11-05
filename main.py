@@ -4,8 +4,9 @@ import numpy as np
 import requests
 import json
 import pydeck as pdk
+
 def get_crypto_prices(symbol, start, end):
-    api_key = '076c246c09cc513816e38f7cadc0e490'
+    api_key = '00f2a8f69b8c4ad6cf314cee14da7beb'
     series = pd.date_range(start, end)
     dates = []
     for i in range(len(series)):
@@ -32,7 +33,7 @@ def get_crypto_prices(symbol, start, end):
     return df
 
 def get_all_prices(start, end):
-    api_key = '7d9fd462584daa7dbbf18aa0b756aea7'
+    api_key = '00f2a8f69b8c4ad6cf314cee14da7beb'
     series = pd.date_range(start, end)
     dates = []
     for i in range(len(series)):
@@ -91,7 +92,7 @@ if add_selectbox == "Current Cryptocurrency Data":
     chart_data = pd.DataFrame(chart_data)
     chart_data = chart_data.set_index("Coin")
     st.bar_chart(chart_data)
-    st.text("Prices as of 11/5/2022")
+    st.text("Prices as of" + todays_date)
 
 
 elif add_selectbox == "Historical Data":
