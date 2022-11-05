@@ -4,7 +4,6 @@ import numpy as np
 import requests
 import json
 import pydeck as pdk
-
 def get_crypto_prices(symbol, start, end):
     api_key = '7d9fd462584daa7dbbf18aa0b756aea7'
     series = pd.date_range(start, end)
@@ -29,6 +28,7 @@ def get_crypto_prices(symbol, start, end):
     df = pd.DataFrame(columns=['date', 'price'])
     df['date'] = series
     df['price'] = prices
+    st.line_chart(data=df, x=df['date'], y=df['price'], use_container_width=True)
     return df
 
 def get_all_prices(start, end):
@@ -56,7 +56,6 @@ def get_all_prices(start, end):
     df['date'] = series
     df['price'] = prices
     return df
-
 
 st.set_page_config(
     page_title="Project 2- Adriel Molerio & Ashley Royce",
@@ -128,8 +127,6 @@ elif add_selectbox == "Global Cryptocurrency Conversions":
             }
         }
     ))
-    st.info('Statistical information displayed in map collected in 2021 by TripleA', icon="ℹ️")
-
     st.subheader("Cryptocurrency Converter by Country")
     coin = st.radio("Choose a Cryptopcurrency",
                     options=["Bitcoin", "Ethereum", "Litecoin"])
@@ -152,8 +149,7 @@ elif add_selectbox == "Global Cryptocurrency Conversions":
         btc_price = response["USD"]
         st.write("Current price of Litecoin in US$ {}".format(btc_price))
 
-    if st.button('Click here to perform currency conversions'):
-         capital = st.selectbox('Select a country to convert cryptocurrency prices',
+    capital = st.selectbox('Select a country to convert cryptocurrency prices',
                             ["Brazil", "Colombia", "India", "Indonesia", "Kenya", "Nigeria",
                              "Pakistan", "Phillipines", "Russia", "South Africa", "Thailand",
                             "Ukraine", "United Kingdom", "United States", "Venezuela", "Vietnam"])
