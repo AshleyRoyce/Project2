@@ -82,7 +82,6 @@ elif add_selectbox == "Historical Data":
         coin_df = get_crypto_prices(desired_coin, start_date, end_date)
         lineColor = st.color_picker("Select a color for the line.")
         st.table(coin_df)
-        st.dataframe(coin_df)
         st.line_chart(coin_df['price'])
 
 
