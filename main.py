@@ -4,8 +4,6 @@ import numpy as np
 import requests
 import json
 import pydeck as pdk
-import plotly.express as px
-
 def get_crypto_prices(symbol, start, end):
     api_key = '076c246c09cc513816e38f7cadc0e490'
     series = pd.date_range(start, end)
