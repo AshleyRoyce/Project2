@@ -91,7 +91,7 @@ if add_selectbox == "Current Cryptocurrency Data":
     chart_data = pd.DataFrame(chart_data)
     chart_data = chart_data.set_index("Coin")
     st.bar_chart(chart_data)
-    st.text("Prices as of" + todays_date)
+    st.text("Prices as of today")
 
 
 elif add_selectbox == "Historical Data":
