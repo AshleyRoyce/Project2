@@ -53,20 +53,23 @@ if add_selectbox == "Current Cryptocurrency Data":
     other_coin = st.checkbox("Do you want to look at another coin?")
     todays_date = st.date_input("Please select today's date:")
     end_date = todays_date
+    coin1_df = None
+    coin2_df = None
     if desired_coin:
-        st.table(get_crypto_prices(desired_coin, todays_date, end_date))
+        coin1_df = get_crypto_prices(desired_coin, todays_date, end_date)
+        st.table(coin1_df)
     if other_coin:
         desired_coin2 = st.text_input("Input your second desired coin here:")
-        st.table(get_crypto_prices(desired_coin2, todays_date, end_date))
+        coin2_df = get_crypto_prices(desired_coin2, todays_date, end_date)
+        st.table(coin2_df)
 
     st.subheader("Cryptocurrency Comparisons")
-    chart_data = {
-        'Coin': ['LTC', 'BNB', 'XMR', 'XRP', 'AAVE', 'BSV', 'ZEC'],
-        'Price(USD)': [69.75, 353.28, 160.07, 163.18, 95.52, 49.06, 54.17]
-    }
-    chart_data = pd.DataFrame(chart_data)
-    chart_data = chart_data.set_index("Coin")
-    st.bar_chart(chart_data)
+    #chart_data = {
+     #   'Coin': ['LTC', 'BNB', 'XMR', 'XRP', 'AAVE', 'BSV', 'ZEC'],
+      #  'Price(USD)': [69.75, 353.28, 160.07, 163.18, 95.52, 49.06, 54.17]
+    #}
+    bar_chart_df = pd.merge(coin1_df, coin2_df, how="outer", on=['price'])
+    st.bar_chart(bar_chart_df)
     st.text("Prices as of today")
 
 
