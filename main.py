@@ -65,6 +65,7 @@ if add_selectbox == "Current Cryptocurrency Data":
         st.subheader("Cryptocurrency Comparisons")
         bar_chart_df = pd.merge(coin1_df, coin2_df, how="outer", on=['price'])
         st.bar_chart(bar_chart_df['price'])
+        st.bar_chart(x= "Coin", y = "Price")
         st.text("Prices as of today")
     else:
         st.error('Comparison bar graph is only viewable if two coins are entered', icon="🚨")
@@ -210,11 +211,11 @@ elif add_selectbox == "Global Cryptocurrency Conversions":
         st.write("Current price of " + coin + " in VND is: " + str(round(coin_price, 2)))
 
 else:
-    st.header("CAP 4104 - Developed by Adriel Molerio & Ashley Royce")
+    #st.header("CAP 4104 - Developed by Adriel Molerio & Ashley Royce")
     st.text("This page has been developed to share information about cryptocurrency data, both historical and current.")
     st.subheader("Just how popular is cryptocurrency?")
     number = st.number_input('What percent of the global population do you think owns cryptocurrency?')
     if number:
-        st.write("The answer is 4.2%. That's over 320 million people.")
+        st.write("The answer as of 2022 is 4.2%. That's over 320 million people!")
     st.image("media/Coins.jpg")
     st.caption("Source: https://www.finextra.com/the-long-read/523/the-future-of-digital-banking-in-north-america-chain-reactions---cryptocurrency-vs-remittances")
