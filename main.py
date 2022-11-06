@@ -25,7 +25,7 @@ def get_crypto_prices(symbol, start, end):
             price = val[0][f'{symbol}']
             prices.append(price)
         except:
-            st.error('Invalid coin symbol entered', icon="🚨")
+        #    st.error('Invalid coin symbol entered', icon="🚨")
             # Normally this is our way of indicating that our API key is out of requests.
             prices.append('')
     df = pd.DataFrame(columns=['date', 'price'])
@@ -51,8 +51,8 @@ add_selectbox = st.sidebar.selectbox(
 
 if add_selectbox == "Current Cryptocurrency Data":
     st.header("Current Cryptocurrency Data")
-    desired_coin = st.text_input("Input the Coin you want to examine here (Example: BTC):")
-    other_coin = st.checkbox("Do you want to look at another coin?")
+    desired_coin = st.text_input("Please input the first Coin you want to examine here (Example: BTC):")
+    other_coin = st.checkbox("Click here to enter another coina and view comparison graph")
     todays_date = st.date_input("Please select today's date:")
     end_date = todays_date
     coin1_df = None
@@ -64,6 +64,8 @@ if add_selectbox == "Current Cryptocurrency Data":
         desired_coin2 = st.text_input("Input your second desired coin here:")
         coin2_df = get_crypto_prices(desired_coin2, todays_date, end_date)
         st.table(coin2_df)
+    else:
+        st.error('No graph to view as second coin was not entered', icon="🚨")
 
     st.subheader("Cryptocurrency Comparisons")
     bar_chart_df = pd.merge(coin1_df, coin2_df, how="outer", on=['price'])
@@ -78,7 +80,8 @@ elif add_selectbox == "Historical Data":
     end_date = st.date_input("Enter the date you want to stop analyzing the currency.")
     if desired_coin and start_date and end_date:
         coin_df = get_crypto_prices(desired_coin, start_date, end_date)
-        lineColor = st.color_picker("Select a color for the line.")
+        #lineColor = st.color_picker("Select a color for the line.")
+        #st.write("The chosen color is", color)
         st.table(coin_df)
         st.line_chart(coin_df['price'])
 
