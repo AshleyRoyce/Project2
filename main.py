@@ -7,7 +7,7 @@ import pydeck as pdk
 
 #Developed by Adriel Molerio and Ashley Royce
 def get_crypto_prices(symbol, start, end):
-    api_key = '1c4d7679a14bc13abe34820165c8f97a'
+    api_key = 'cf5c6e15a21a126bfc88be51941633fc'
     series = pd.date_range(start, end)
     dates = []
     for i in range(len(series)):
@@ -25,8 +25,6 @@ def get_crypto_prices(symbol, start, end):
             price = val[0][f'{symbol}']
             prices.append(price)
         except:
-        #    st.error('Invalid coin symbol entered', icon="🚨")
-            # Normally this is our way of indicating that our API key is out of requests.
             prices.append('')
     df = pd.DataFrame(columns=['date', 'price'])
     df['date'] = series
@@ -52,7 +50,7 @@ add_selectbox = st.sidebar.selectbox(
 if add_selectbox == "Current Cryptocurrency Data":
     st.header("Current Cryptocurrency Data")
     desired_coin = st.text_input("Please input the first Coin you want to examine here (Example: BTC):")
-    other_coin = st.checkbox("Click here to enter another coina and view comparison graph")
+    other_coin = st.checkbox("Click here to enter another coin and view comparison graph")
     todays_date = st.date_input("Please select today's date:")
     end_date = todays_date
     coin1_df = None
@@ -69,7 +67,7 @@ if add_selectbox == "Current Cryptocurrency Data":
         st.bar_chart(bar_chart_df['price'])
         st.text("Prices as of today")
     else:
-        st.error('No graph to view as second coin was not entered', icon="🚨")
+        st.error('Comparison bar graph is only viewable if two coins are entered', icon="🚨")
 
 
 
@@ -214,5 +212,9 @@ elif add_selectbox == "Global Cryptocurrency Conversions":
 else:
     st.header("CAP 4104 - Developed by Adriel Molerio & Ashley Royce")
     st.text("This page has been developed to share information about cryptocurrency data, both historical and current.")
+    st.subheader("Just how popular is cryptocurrency?")
+    number = st.number_input('What percent of the global population do you think owns cryptocurrency?')
+    if number:
+        st.write("The answer is 4.2%. That's over 320 million people.")
     st.image("media/Coins.jpg")
     st.caption("Source: https://www.finextra.com/the-long-read/523/the-future-of-digital-banking-in-north-america-chain-reactions---cryptocurrency-vs-remittances")
