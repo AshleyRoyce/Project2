@@ -7,7 +7,7 @@ import pydeck as pdk
 
 #Developed by Adriel Molerio and Ashley Royce
 def get_crypto_prices(symbol, start, end):
-    api_key = '00f2a8f69b8c4ad6cf314cee14da7beb'
+    api_key = '1c4d7679a14bc13abe34820165c8f97a'
     series = pd.date_range(start, end)
     dates = []
     for i in range(len(series)):
