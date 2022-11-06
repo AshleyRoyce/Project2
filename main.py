@@ -25,6 +25,7 @@ def get_crypto_prices(symbol, start, end):
             prices.append(price)
         except:
             st.error('Invalid coin symbol entered', icon="🚨")
+            # Normally this is our way of indicating that our API key is out of requests.
             prices.append('')
     df = pd.DataFrame(columns=['date', 'price'])
     df['date'] = series
@@ -64,10 +65,6 @@ if add_selectbox == "Current Cryptocurrency Data":
         st.table(coin2_df)
 
     st.subheader("Cryptocurrency Comparisons")
-    #chart_data = {
-     #   'Coin': ['LTC', 'BNB', 'XMR', 'XRP', 'AAVE', 'BSV', 'ZEC'],
-      #  'Price(USD)': [69.75, 353.28, 160.07, 163.18, 95.52, 49.06, 54.17]
-    #}
     bar_chart_df = pd.merge(coin1_df, coin2_df, how="outer", on=['price'])
     st.bar_chart(bar_chart_df['price'])
     st.text("Prices as of today")
