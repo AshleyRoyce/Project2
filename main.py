@@ -65,7 +65,6 @@ if add_selectbox == "Current Cryptocurrency Data":
         st.subheader("Cryptocurrency Comparisons")
         bar_chart_df = pd.merge(coin1_df, coin2_df, how="outer", on=['price'])
         st.bar_chart(bar_chart_df['price'])
-        st.bar_chart(x= "Coin", y = "Price")
         st.text("Prices as of today")
     else:
         st.error('Comparison bar graph is only viewable if two coins are entered', icon="🚨")
@@ -211,8 +210,7 @@ elif add_selectbox == "Global Cryptocurrency Conversions":
         st.write("Current price of " + coin + " in VND is: " + str(round(coin_price, 2)))
 
 else:
-    #st.header("CAP 4104 - Developed by Adriel Molerio & Ashley Royce")
-    st.text("This page has been developed to share information about cryptocurrency data, both historical and current.")
+    st.text("This page has been developed to share information about global cryptocurrency data, both historical and current.")
     st.subheader("Just how popular is cryptocurrency?")
     number = st.number_input('What percent of the global population do you think owns cryptocurrency?')
     if number:
