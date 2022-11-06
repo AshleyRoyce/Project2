@@ -64,13 +64,13 @@ if add_selectbox == "Current Cryptocurrency Data":
         desired_coin2 = st.text_input("Input your second desired coin here:")
         coin2_df = get_crypto_prices(desired_coin2, todays_date, end_date)
         st.table(coin2_df)
+        st.subheader("Cryptocurrency Comparisons")
+        bar_chart_df = pd.merge(coin1_df, coin2_df, how="outer", on=['price'])
+        st.bar_chart(bar_chart_df['price'])
+        st.text("Prices as of today")
     else:
         st.error('No graph to view as second coin was not entered', icon="🚨")
 
-    st.subheader("Cryptocurrency Comparisons")
-    bar_chart_df = pd.merge(coin1_df, coin2_df, how="outer", on=['price'])
-    st.bar_chart(bar_chart_df['price'])
-    st.text("Prices as of today")
 
 
 elif add_selectbox == "Historical Data":
